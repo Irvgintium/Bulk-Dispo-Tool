@@ -627,7 +627,7 @@ async function handleSelectStation() {
         stationType: "EMPTY",
       })
     );
-    sendMessageBanner("Station set: " + response);
+    sendMessageBanner("Station set to " + response);
     checkLoginAPIUser();
   } catch (error) {
     sendMessageBanner(error);
@@ -641,7 +641,7 @@ async function handleSelectSkills() {
       `https://${host}/appsvcs/rs/svc/agents/${userId}/active_skills`,
       JSON.stringify([])
     );
-    sendMessageBanner("From handleSelectSkills \n" + response);
+    sendMessageBanner("Inital Skill set to:" + response);
   } catch (error) {
     sendMessageBanner(error);
   }
