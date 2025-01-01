@@ -162,12 +162,29 @@ document
       );
 
       const filteredCSV = data.join("\n");
-      loadTable(filteredCSV);
-      sendMessageBanner(
-        'Reloaded CSV table with "' +
-          this.options[this.selectedIndex].text +
-          '"'
-      );
+
+      if (
+        filteredCSV
+          .split("\n")
+          .map((x, i) => i != 0 && x)
+          .filter((removeFalse) => removeFalse)
+          .join("\n")
+          .replace(/[\s,]+/g, "").length == 0
+      ) {
+        sendMessageBanner(
+          'CSV does not contain any data with "' +
+            this.options[this.selectedIndex].text +
+            '"'
+        );
+        clearTable();
+      } else {
+        loadTable(filteredCSV);
+        sendMessageBanner(
+          'Reloaded CSV table with "' +
+            this.options[this.selectedIndex].text +
+            '"'
+        );
+      }
     }
   });
 
@@ -623,7 +640,6 @@ async function acceptChatEmail(profileId, mediaType, type) {
     type: type,
   };
   const jsonBody = JSON.stringify(requestBody);
-  
 }
 
 async function disposeChatEmail(profileId, mediaType, dispositionId, isClose) {
