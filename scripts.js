@@ -12,11 +12,11 @@ var ids;
 var dispositionsCopy;
 
 sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
-
 showBulkDispoButton(false);
 showMatchSkillsButton(false);
 showDispositionsMenu(false);
 enableFilter(false);
+showLogout(false);
 changePanelText(true, "You will see more info below once logged in.");
 
 window.addEventListener("beforeunload", function (event) {
@@ -31,6 +31,10 @@ document.getElementById("login").addEventListener("click", function () {
   } catch (error) {
     alert(error);
   }
+});
+
+document.getElementById("logout").addEventListener("click", function () {
+  logoutUser();
 });
 
 document
@@ -387,6 +391,7 @@ function ShowLoginDetails(value) {
       message.style.display = "block";
       message.style.fontSize = "15px";
       allowCSVUpload(true);
+      showLogout(true);
     }
   }
 }
@@ -552,9 +557,12 @@ async function checkLoginAPIUser() {
     }
 
     if (response.replace(/"/g, "") == "SELECT_SKILLS") {
-      alert("Encountered SELECT_SKILLS during login, trying to fix it..");
-      alert("entering handle select skills");
+      alert("Encountered SELECT_SKILLS during login, trying to fix it.."); 
       handleSelectStation();
+    }
+
+    if (response.replace(/"/g, "") == "WORKING") {
+      getSkill();
     }
   } catch (error) {
     alert(`checkLoginAPIUser error:\n${error}`);
@@ -621,7 +629,6 @@ async function handleSelectStation() {
     );
     sendMessageBanner("From handleSelectStation \n" + response);
     checkLoginAPIUser();
-    getSkill();
   } catch (error) {
     sendMessageBanner(error);
   }
@@ -657,4 +664,23 @@ async function disposeChatEmail(profileId, mediaType, dispositionId, isClose) {
     isClose: isClose,
   };
   const jsonBody = JSON.stringify(requestBody);
+}
+
+function showLogout(value) {
+  const logout = document.getElementById("logout");
+  if (value == true) {
+    logout.style.display = "block";
+  } else {
+    logout.style.display = "none";
+  }
+}
+
+async function logoutUser() {
+  // const response = await request(
+  //   "POST",
+  //   `https://app.five9.com/appsvcs/rs/svc/auth/logout`,
+  //   JSON.stringify()
+  // );
+  // sendMessageBanner("User has been logged out " + response);
+  window.location.reload(true);
 }
