@@ -411,12 +411,12 @@ function clearTable() {
 function sendMessageBanner(msg) {
   const banner = document.getElementById("displayBanner");
   banner.textContent = msg;
-  banner.style.color = "yellow";
+  banner.style.color = "white";
   banner.style.textShadow =
-    "0 0 10px yellowGreen, 0 0 20px yellowGreen, 0 0 30px yellowGreen";
+    "0 0 10px white, 0 0 20px white, 0 0 30px white";
   setTimeout(() => {
     banner.style.color = "rgba(241, 241, 241, 0.5)";
-    banner.style.textShadow = "2px 2px 4px";
+    banner.style.textShadow = "1px 1px 2px rgba(241, 241, 241, 0.5)";
   }, 3000);
 }
 
