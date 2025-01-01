@@ -406,6 +406,13 @@ function clearTable() {
 function sendMessageBanner(msg) {
   const banner = document.getElementById("displayBanner");
   banner.textContent = msg;
+  banner.style.color = "yellow";
+  banner.style.textShadow =
+    "0 0 10px yellowGreen, 0 0 20px yellowGreen, 0 0 30px yellowGreen";
+  setTimeout(() => {
+    banner.style.color = "rgba(241, 241, 241, 0.5)";
+    banner.style.textShadow = "2px 2px 4px";
+  }, 3000);
 }
 
 async function getInteractionDetails(sessionGUID) {
