@@ -619,11 +619,11 @@ async function handleSelectStation() {
         stationType: "EMPTY",
       })
     );
-    console.log("From handleSelectStation \n" + response);
+    sendMessageBanner("From handleSelectStation \n" + response);
     checkLoginAPIUser();
     getSkill();
   } catch (error) {
-    alert(error);
+    sendMessageBanner(error);
   }
 }
 
@@ -634,9 +634,9 @@ async function handleSelectSkills() {
       `https://${host}/appsvcs/rs/svc/agents/${userId}/active_skills`,
       JSON.stringify([])
     );
-    console.log("From handleSelectSkills \n" + response);
+    sendMessageBanner("From handleSelectSkills \n" + response);
   } catch (error) {
-    alert(error);
+    sendMessageBanner(error);
   }
 }
 
