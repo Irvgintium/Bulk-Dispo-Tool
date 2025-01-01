@@ -577,6 +577,7 @@ async function bulkDispoTable() {
   const dispositionId = dispositionsCopy.filter(
     (dispo) => dispo.name == selectedDispo
   )[0].id;
+  let index = 0;
 
   for (const row of rows) {
     const GUID = row.querySelector("th").textContent;
@@ -587,13 +588,28 @@ async function bulkDispoTable() {
       thElement.style.color = "green";
       const profileId = JSON.parse(result).profileId;
       const mediaType = JSON.parse(result).mediaType;
+      index++;
+      sendMessageBanner(
+        "(" +
+          index +
+          " out of " +
+          rows.length +
+          "). " +
+          'Processing Session GUID "' +
+          GUID +
+          '"'
+      );
     } catch (error) {
-      console.error(
-        `Error fetching interaction details for GUID: ${GUID}`,
-        error
+      index--;
+      sendMessageBanner(
+        `Error fetching interaction details for GUID "${GUID}": ${error} `
       );
     }
   }
+  sendMessageBanner(`${index} GUIDs has been disposed.`);
+  setTimeout(() => {
+    endSession();
+  }, 3000);
 }
 
 async function loadDispositions() {
@@ -683,4 +699,15 @@ async function logoutUser() {
   // );
   // sendMessageBanner("User has been logged out " + response);
   window.location.reload(true);
+}
+
+function endSession() {
+  const confirmEnd = confirm(
+    "Disposing the CSV has been done. Do you want to end the session?"
+  );
+  if (confirmEnd) {
+    window.location.reload(true);
+  } else {
+    return;
+  }
 }
