@@ -557,7 +557,7 @@ async function checkLoginAPIUser() {
     }
 
     if (response.replace(/"/g, "") == "SELECT_SKILLS") {
-      alert("Encountered SELECT_SKILLS during login, trying to fix it.."); 
+      alert("Encountered SELECT_SKILLS during login, trying to fix it..");
       handleSelectStation();
     }
 
@@ -627,7 +627,7 @@ async function handleSelectStation() {
         stationType: "EMPTY",
       })
     );
-    sendMessageBanner("From handleSelectStation \n" + response);
+    sendMessageBanner("Station set: " + response);
     checkLoginAPIUser();
   } catch (error) {
     sendMessageBanner(error);
