@@ -63,14 +63,14 @@ document
                 text
                   .split("\n")[0]
                   .split(",")
-                  .map(
-                    (data, index) =>
-                      data.trim().toLowerCase() === col.trim().toLowerCase() &&
-                      index
+                  .map((data, index) =>
+                    data.trim().toLowerCase() === col.trim().toLowerCase()
+                      ? index
+                      : undefined
                   )
-                  .filter((filterFalse) => filterFalse)[0]
+                  .filter((index) => index !== undefined)[0]
             )
-            .filter((filterUndefined) => filterUndefined);
+            .filter((index) => index !== undefined);
 
           const newCSV = text
             .split("\n")
