@@ -40,7 +40,7 @@ document.getElementById("logout").addEventListener("click", function () {
 document
   .getElementById("csvFileInput")
   .addEventListener("change", function (event) {
-    alert(`NOTE: Make sure the CSV file contains "SESSION GUID",
+    alert(`NOTE: Make sure the CSV file contains:\n "SESSION GUID",
           "CAMPAIGN",
           "SKILL",
           "CUSTOMER NAME",
