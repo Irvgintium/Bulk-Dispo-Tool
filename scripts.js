@@ -40,12 +40,9 @@ document.getElementById("logout").addEventListener("click", function () {
 document
   .getElementById("csvFileInput")
   .addEventListener("change", function (event) {
-    alert(`NOTE: Make sure the CSV file contains:\n "SESSION GUID",
-          "CAMPAIGN",
-          "SKILL",
-          "CUSTOMER NAME",
-          "DISPOSITION" &
-          "STATUS",`);
+    alert(
+      `NOTE: Make sure the CSV file contains:\n"SESSION GUID"\n"CAMPAIGN"\n"SKILL"\n"CUSTOMER NAME"\n"DISPOSITION"\n"STATUS",`
+    );
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
