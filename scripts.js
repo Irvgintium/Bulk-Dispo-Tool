@@ -612,7 +612,7 @@ async function bulkDispoTable() {
         index++;
         sendMessageBanner(
           index +
-            " Session GUID(s) were NOT processed. These are the BLUE colored Session GUID(s) on the table."
+            " Session GUID(s) highligthed in BLUE on the table have been deprovisoned already."
         );
         thElement.style.color = "blue";
         continue;
@@ -755,6 +755,7 @@ async function disposeChatEmail(
       sendMessageBanner('"' + GUID + '" has been disposed successfully."');
   } catch (error) {
     sendMessageBanner(`Error: ${error}`);
+    return "error";
   }
 }
 
