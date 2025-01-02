@@ -57,14 +57,20 @@ document
         ];
 
         try {
-          const headersToShow = text
-            .split("\n")[0]
-            .split(",")
+          const headersToShow = defaultHeaders
             .map(
-              (x, i) =>
-                defaultHeaders.map((y) => y == x && i).filter((z) => z)[0]
+              (col) =>
+                text
+                  .split("\n")[0]
+                  .split(",")
+                  .map(
+                    (data, index) =>
+                      data.trim().toLowerCase() === col.trim().toLowerCase() &&
+                      index
+                  )
+                  .filter((filterFalse) => filterFalse)[0]
             )
-            .filter((a) => a);
+            .filter((filterUndefined) => filterUndefined !== undefined);
 
           const newCSV = text
             .split("\n")
@@ -73,7 +79,7 @@ document
                 (col) =>
                   row
                     .replace(
-                      /^"(.*?)"/gm,
+                      /"(.*?)"/gm,
                       (_, timestamp) => `"${timestamp.replace(/,/g, "")}"`
                     )
                     .split(",")
