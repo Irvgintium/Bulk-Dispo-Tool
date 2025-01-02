@@ -362,7 +362,7 @@ function loadTable(csv) {
     tbody.appendChild(tr);
   });
 
-  //CHECK IF SKILLS MATCH THE SKILLS IN UPLOADED CSV FILE.
+  //CHECK IF SKILLS IN UPLOADED CSV FILE MATCH THE USER'S SKILLS.
   checkSkills();
 }
 
@@ -450,55 +450,47 @@ async function getInteractionDetails(sessionGUID) {
 }
 
 function checkSkills() {
-  //Dynamically get the index of skills column anywhere from the csv file.
-  const getIndexOfSkillsFromCSV = csvData
-    .split("\n")[0]
-    .split(",")
-    .map((col, index) => col.toLowerCase() == "skill" && index)
-    .filter((removeFalseResult) => removeFalseResult);
-  const csvSkills = csvData.split("\n").map((row) =>
-    row
-      .split(",")
-      .map((col, index) => index == getIndexOfSkillsFromCSV[0] && col)
-      .filter((removeFalseResult) => removeFalseResult)
-  );
-
-  skillsFromCSV = [...new Set(csvSkills.flat(1))];
-
-  //remove column name 'SKILL'
-  skillsFromCSV.shift();
-
-  if (userSkills.length < skillsFromCSV.length) {
+  if (
+    checkCsvSkills(
+      [...new Set(extractColumnFromCSV(csvData, "SKILL"))],
+      userSkills
+    )
+  ) {
+    enableFilter(true);
+    showDispositionsMenu(true);
+    showBulkDispoButton(true);
+    showMatchSkillsButton(false);
+  } else {
     showMatchSkillsButton(true);
     enableFilter(false);
+    showBulkDispoButton(false);
+    showDispositionsMenu(false);
+    enableFilter(false);
     sendMessageBanner(
-      "Please note that your USER has only " +
-        userSkills.length +
-        " skill(s) assigned, while the uploaded CSV requires " +
-        skillsFromCSV.length +
-        " skills."
+      '\n The  "' +
+        getMissingCsvSkills(
+          [...new Set(extractColumnFromCSV(csvData, "SKILL"))],
+          userSkills
+        ) +
+        "\" skill from the CSV file is/are NOT found in the User's Skills:\n" +
+        userSkills
     );
-  } else {
-    const result = userSkills
-      .map((userSkill) =>
-        skillsFromCSV.map((csvSkill) => userSkill == csvSkill && csvSkill)
-      )
-      .flat()
-      .filter((filterFalse) => filterFalse);
-    if (result.length == 0) {
-      sendMessageBanner(
-        `Please check the user's skill(s). It does not exist in the CSV 'SKILL' column.`
-      );
-      showBulkDispoButton(false);
-      showMatchSkillsButton(true);
-      showDispositionsMenu(false);
-      enableFilter(false);
-    } else {
-      enableFilter(true);
-      showDispositionsMenu(true);
-      showBulkDispoButton(true);
-      showMatchSkillsButton(false);
-    }
+    console.log(
+      "review skills:\nskills from csv:\n" +
+        [...new Set(extractColumnFromCSV(csvData, "SKILL"))] +
+        "\nSkills from user:\n" +
+        userSkills +
+        "\n Are all user skills exist in the CSV skills? = " +
+        checkCsvSkills(
+          [...new Set(extractColumnFromCSV(csvData, "SKILL"))],
+          userSkills
+        ) +
+        "\n Missing skills from csv file that is not in the user's skills: " +
+        getMissingCsvSkills(
+          [...new Set(extractColumnFromCSV(csvData, "SKILL"))],
+          userSkills
+        )
+    );
   }
 }
 
@@ -542,18 +534,18 @@ function changePanelText(value, message) {
   }
 }
 
-async function getSkills() {
-  try {
-    const response = await request(
-      "GET",
-      `https://${host}/appsvcs/rs/svc/orgs/${orgID}/skills`
-    );
-    return response;
-  } catch (error) {
-    alert(error);
-    throw error;
-  }
-}
+// async function getSkills() {
+//   try {
+//     const response = await request(
+//       "GET",
+//       `https://${host}/appsvcs/rs/svc/orgs/${orgID}/skills`
+//     );
+//     return response;
+//   } catch (error) {
+//     alert(error);
+//     throw error;
+//   }
+// }
 
 async function assignSkillsToMatch(skills) {
   try {
@@ -789,4 +781,46 @@ function endSession() {
   } else {
     return;
   }
+}
+
+function extractColumnFromCSV(csvData, columnName) {
+  const rows = csvData.split("\n");
+
+  if (rows.length < 2) {
+    throw new Error("CSV data is too short or invalid.");
+  }
+
+  const headers = rows[0].split(",").map((header) => header.trim());
+  const columnIndex = headers.indexOf(columnName);
+
+  if (columnIndex === -1) {
+    throw new Error(
+      `Column "${columnName}" not found in the uploadded CSV header.`
+    );
+  }
+
+  return rows
+    .slice(1) //skip the header
+    .map((row) => row.split(",")[columnIndex])
+    .filter((value) => value);
+}
+
+function checkCsvSkills(csvSkills, userSkills) {
+  const userSkillsSet = new Set(userSkills.map((skill) => skill.trim()));
+  const normalizedCsvSkills = csvSkills.map((skill) => skill.trim());
+
+  //check if all CSV skills exist in the user skills
+  return normalizedCsvSkills.every((skill) => userSkillsSet.has(skill));
+}
+
+function getMissingCsvSkills(csvSkills, userSkills) {
+  const userSkillsSet = new Set(userSkills.map((skill) => skill.trim()));
+  const normalizedCsvSkills = csvSkills.map((skill) => skill.trim());
+
+  //filter skills from CSV that are not in user skills
+  const missingSkills = normalizedCsvSkills.filter(
+    (skill) => !userSkillsSet.has(skill)
+  );
+
+  return missingSkills;
 }
