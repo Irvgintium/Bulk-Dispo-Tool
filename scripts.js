@@ -473,6 +473,7 @@ function checkSkills() {
     const result = userSkills.map((userSkill) =>
       skillsFromCSV.map((csvSkill) => userSkill == csvSkill && csvSkill)
     );
+    alert(result);
     enableFilter(true);
     showDispositionsMenu(true);
     showBulkDispoButton(true);
