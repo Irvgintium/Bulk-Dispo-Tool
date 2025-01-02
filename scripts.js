@@ -70,7 +70,7 @@ document
                   )
                   .filter((filterFalse) => filterFalse)[0]
             )
-            .filter((filterUndefined) => filterUndefined !== undefined);
+            .filter((filterUndefined) => filterUndefined);
 
           const newCSV = text
             .split("\n")
@@ -489,6 +489,9 @@ function checkSkills() {
       sendMessageBanner(
         `Please check the user's skill(s). It does not exist in the CSV 'SKILL' column.`
       );
+      showBulkDispoButton(false);
+      showMatchSkillsButton(true);
+      showDispositionsMenu(false);
     } else {
       enableFilter(true);
       showDispositionsMenu(true);
