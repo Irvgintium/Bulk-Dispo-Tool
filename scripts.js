@@ -648,7 +648,7 @@ async function bulkDispoTable() {
   }
   setTimeout(() => {
     endSession();
-  }, 3000);
+  }, 6000);
 }
 
 async function loadDispositions() {
@@ -763,9 +763,7 @@ async function logoutUser() {
 }
 
 function endSession() {
-  const confirmEnd = confirm(
-    "Disposing the CSV has been done. Do you want to end the session?"
-  );
+  const confirmEnd = confirm("Do you want to end the session?");
   if (confirmEnd) {
     window.location.reload(true);
   } else {
