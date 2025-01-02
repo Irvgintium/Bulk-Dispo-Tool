@@ -10,6 +10,8 @@ var userSkills;
 var skillsFromCSV;
 var ids;
 var dispositionsCopy;
+var matchSkillMessage =
+  "Please have your admin assign you the skills needed for deprovisioning.";
 
 sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
 showBulkDispoButton(false);
@@ -204,9 +206,7 @@ document
 document
   .getElementById("matchSkills")
   .addEventListener("click", async function (e) {
-    alert(
-      "Please have your admin assign you the skills needed for deprovisioning."
-    );
+    alert(matchSkillMessage);
   });
 
 document.getElementById("bulkDispo").addEventListener("click", function (e) {
@@ -475,6 +475,13 @@ function checkSkills() {
         "\" skill from the CSV file is/are NOT found in the User's Skills:\n" +
         userSkills
     );
+    matchSkillMessage =
+      "Please have your admin assign these skill(s) to your user:\n\n" +
+      getMissingCsvSkills(
+        [...new Set(extractColumnFromCSV(csvData, "SKILL"))],
+        userSkills
+      ) +
+      "\n\nNOTE: Your user's assigned skill should match skills in the uploaded CSV file!";
     console.log(
       "review skills:\nskills from csv:\n" +
         [...new Set(extractColumnFromCSV(csvData, "SKILL"))] +
