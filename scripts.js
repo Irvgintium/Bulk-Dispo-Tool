@@ -40,6 +40,12 @@ document.getElementById("logout").addEventListener("click", function () {
 document
   .getElementById("csvFileInput")
   .addEventListener("change", function (event) {
+    alert(`NOTE: Make sure the CSV file contains "SESSION GUID",
+          "CAMPAIGN",
+          "SKILL",
+          "CUSTOMER NAME",
+          "DISPOSITION" &
+          "STATUS",`);
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -470,14 +476,22 @@ function checkSkills() {
         " skills."
     );
   } else {
-    const result = userSkills.map((userSkill) =>
-      skillsFromCSV.map((csvSkill) => userSkill == csvSkill && csvSkill)
-    );
-    alert(result);
-    enableFilter(true);
-    showDispositionsMenu(true);
-    showBulkDispoButton(true);
-    showMatchSkillsButton(false);
+    const result = userSkills
+      .map((userSkill) =>
+        skillsFromCSV.map((csvSkill) => userSkill == csvSkill && csvSkill)
+      )
+      .flat()
+      .filter((filterFalse) => filterFalse);
+    if (result.length == 0) {
+      sendMessageBanner(
+        `Please check the user's skill(s). It does not exist in the CSV 'SKILL' column.`
+      );
+    } else {
+      enableFilter(true);
+      showDispositionsMenu(true);
+      showBulkDispoButton(true);
+      showMatchSkillsButton(false);
+    }
   }
 }
 
