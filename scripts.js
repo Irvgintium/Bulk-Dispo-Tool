@@ -658,9 +658,6 @@ async function bulkDispoTable() {
       );
     }
   }
-  setTimeout(() => {
-    endSession();
-  }, 6000);
 }
 
 async function loadDispositions() {
