@@ -280,21 +280,26 @@ async function request(method, urlEndpoint, headerBody) {
 function getSkill() {
   request("GET", `https://${host}/appsvcs/rs/svc/agents/${userId}/skills`).then(
     (result) => {
-      ids = JSON.parse(result).map((x) => x.id);
-      userSkills = JSON.parse(result).map((x) => x.name);
+      try {
+        ids = JSON.parse(result).map((x) => x.id);
+        userSkills = JSON.parse(result).map((x) => x.name);
 
-      var ul = document.querySelector(".list-group");
+        var ul = document.querySelector(".list-group");
 
-      for (var i = 0; i < userSkills.length; i++) {
-        var name = userSkills[i];
-        var li = document.createElement("li");
-        li.className = "list-group-item text-dark";
-        li.appendChild(document.createTextNode(name));
-        ul.appendChild(li);
+        for (var i = 0; i < userSkills.length; i++) {
+          var name = userSkills[i];
+          var li = document.createElement("li");
+          li.className = "list-group-item text-dark";
+          li.appendChild(document.createTextNode(name));
+          ul.appendChild(li);
+        }
+        changePanelText(true, "Your user's assigned skill(s):");
+        console.log("Skill IDs: \n" + ids);
+        assignSkillsToMatch(JSON.stringify(ids));
+      } catch (error) {
+        login();
+        //if error occurs, this will try logging in again.
       }
-      changePanelText(true, "Your user's assigned skill(s):");
-      console.log("Skill IDs: \n" + ids);
-      assignSkillsToMatch(JSON.stringify(ids));
     }
   );
 }
@@ -412,8 +417,7 @@ function sendMessageBanner(msg) {
   const banner = document.getElementById("displayBanner");
   banner.textContent = msg;
   banner.style.color = "white";
-  banner.style.textShadow =
-    "0 0 10px white, 0 0 20px white, 0 0 30px white";
+  banner.style.textShadow = "0 0 10px white, 0 0 20px white, 0 0 30px white";
   setTimeout(() => {
     banner.style.color = "rgba(241, 241, 241, 0.5)";
     banner.style.textShadow = "1px 1px 2px rgba(241, 241, 241, 0.5)";
