@@ -6,16 +6,6 @@ body {
   background-attachment: fixed;
 }
 
-div {
-  overflow: auto;
-  scrollbar-width: thin; 
-  -ms-overflow-style: none;
-}
-
-div::-webkit-scrollbar {
-  display: none;
-}
-
 .logo {
   width: 150px;
   height: auto;
