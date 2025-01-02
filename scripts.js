@@ -492,6 +492,7 @@ function checkSkills() {
       showBulkDispoButton(false);
       showMatchSkillsButton(true);
       showDispositionsMenu(false);
+      enableFilter(false);
     } else {
       enableFilter(true);
       showDispositionsMenu(true);
