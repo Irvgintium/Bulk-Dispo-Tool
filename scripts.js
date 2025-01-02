@@ -195,21 +195,9 @@ document
 document
   .getElementById("matchSkills")
   .addEventListener("click", async function (e) {
-    // try {
     alert(
       "Please have your admin assign you the skills needed for deprovisioning."
     );
-    // const res = await getSkills();
-    // const skillIDsToMatch = skillsFromCSV.map((skill) =>
-    //   JSON.parse(res)
-    //     .map((skilldata) => skilldata.name == skill && skilldata.id)
-    //     .filter((removeFalseResult) => removeFalseResult)
-    // );
-    //alert(skillIDsToMatch);
-    //assignSkillsToMatch(JSON.stringify(skillIDsToMatch.flat()));
-    // } catch (error) {
-    //   alert(error);
-    // }
   });
 
 document.getElementById("bulkDispo").addEventListener("click", function (e) {
@@ -268,10 +256,25 @@ async function request(method, urlEndpoint, headerBody) {
     const request = new Request(urlEndpoint, options);
 
     const response = await fetch(request);
-    const result = await response.json();
-    console.log("Post Request Success:", result);
 
-    return JSON.stringify(result);
+    if (!response.ok) {
+      console.log(
+        `HTTP error! Status: ${response.status}\nURL Endpoint: ${urlEndpoint}`
+      );
+    }
+
+    const text = await response.text();
+
+    let result;
+    if (text.trim() === "") {
+      //Empty response
+      console.warn("Empty response from API");
+      result = {}; //Return empty object
+    } else {
+      result = JSON.parse(text); //Parse JSON if not empty
+    }
+    console.log("Post Request Success:", result);
+    return JSON.stringify(result); //Return stringified result
   } catch (error) {
     alert(`Post Request error:\n ${error}`);
   }
@@ -589,20 +592,53 @@ async function bulkDispoTable() {
 
     try {
       const result = await getInteractionDetails(GUID);
-      thElement.style.color = "green";
       const profileId = JSON.parse(result).profileId;
       const mediaType = JSON.parse(result).mediaType;
-      index++;
-      sendMessageBanner(
-        "(" +
+      const dispoID = JSON.parse(result).dispositionId; //-1 is not yet dispositioned
+
+      if (dispoID != "-1") {
+        index++;
+        sendMessageBanner(
           index +
-          " out of " +
-          rows.length +
-          "). " +
-          'Processing Session GUID "' +
-          GUID +
-          '"'
-      );
+            " Session GUID(s) were NOT processed. These are the BLUE colored Session GUID(s) on the table."
+        );
+        thElement.style.color = "blue";
+        continue;
+      } else {
+        index++;
+        sendMessageBanner(
+          "(" +
+            index +
+            " out of " +
+            rows.length +
+            "). " +
+            'Processing Session GUID "' +
+            GUID +
+            '"'
+        );
+        acceptChatEmail(GUID, profileId, mediaType, 1);
+
+        //Run 5 seconds before depro, give time for accept API to be processed
+        setTimeout(() => {
+          disposeChatEmail(GUID, profileId, mediaType, dispositionId, 1)
+            .then((e) => {
+              thElement.style.color = "green";
+              sendMessageBanner(
+                "(" +
+                  index +
+                  " out of " +
+                  rows.length +
+                  "). " +
+                  'Done disposing Session GUID: "' +
+                  GUID +
+                  '"'
+              );
+            })
+            .catch((e) => {
+              thElement.style.color = "red";
+            });
+        }, 5000);
+      }
     } catch (error) {
       index--;
       sendMessageBanner(
@@ -610,7 +646,6 @@ async function bulkDispoTable() {
       );
     }
   }
-  sendMessageBanner(`${index} GUIDs has been disposed.`);
   setTimeout(() => {
     endSession();
   }, 3000);
@@ -667,16 +702,33 @@ async function handleSelectSkills() {
   }
 }
 
-async function acceptChatEmail(profileId, mediaType, type) {
+async function acceptChatEmail(GUID, profileId, mediaType, type) {
   const requestBody = {
     profileId: profileId,
     mediaType: mediaType,
     type: type,
   };
   const jsonBody = JSON.stringify(requestBody);
+  try {
+    const response = request(
+      "PUT",
+      `https://${host}/appsvcs/rs/svc/agents/${userId}/interactions/${GUID}/accept`,
+      jsonBody
+    );
+    response.length == undefined &&
+      sendMessageBanner('"' + GUID + '" has been accepted to the agent...');
+  } catch (error) {
+    sendMessageBanner(`Error: ${error}`);
+  }
 }
 
-async function disposeChatEmail(profileId, mediaType, dispositionId, isClose) {
+async function disposeChatEmail(
+  GUID,
+  profileId,
+  mediaType,
+  dispositionId,
+  isClose
+) {
   const requestBody = {
     profileId: profileId,
     mediaType: mediaType,
@@ -684,6 +736,17 @@ async function disposeChatEmail(profileId, mediaType, dispositionId, isClose) {
     isClose: isClose,
   };
   const jsonBody = JSON.stringify(requestBody);
+  try {
+    const response = request(
+      "PUT",
+      `https://${host}/appsvcs/rs/svc/agents/${userId}/interactions/${GUID}/disposition`,
+      jsonBody
+    );
+    response.length == undefined &&
+      sendMessageBanner('"' + GUID + '" has been disposed successfully."');
+  } catch (error) {
+    sendMessageBanner(`Error: ${error}`);
+  }
 }
 
 function showLogout(value) {
@@ -696,12 +759,6 @@ function showLogout(value) {
 }
 
 async function logoutUser() {
-  // const response = await request(
-  //   "POST",
-  //   `https://app.five9.com/appsvcs/rs/svc/auth/logout`,
-  //   JSON.stringify()
-  // );
-  // sendMessageBanner("User has been logged out " + response);
   window.location.reload(true);
 }
 
