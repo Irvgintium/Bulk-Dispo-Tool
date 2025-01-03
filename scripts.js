@@ -21,18 +21,6 @@ enableFilter(false);
 showLogout(false);
 changePanelText(true, "You will see more info below once logged in.");
 
-const closeButton = document.getElementById("closeAlert");
-const alertBox = document.getElementById("customAlert");
-
-closeButton.addEventListener("click", () => {
-  alertBox.classList.remove("show");
-  alertBox.style.transition = "opacity 0.5s";
-  alertBox.style.opacity = "0";
-  setTimeout(() => {
-    alertBox.remove();
-  }, 500);
-});
-
 window.addEventListener("beforeunload", function (event) {
   const confirmationMessage = "Do you want to reload the page?";
   event.returnValue = confirmationMessage;
@@ -679,6 +667,11 @@ async function bulkDispoTable() {
       );
     }
   }
+  if (index == rows.length) {
+    setTimeout(() => {
+      alert(`${rows.length} Session GUID(s) has been read & processed!`);
+    }, 3000);
+  }
 }
 
 async function loadDispositions() {
@@ -842,21 +835,4 @@ function getMissingCsvSkills(csvSkills, userSkills) {
   );
 
   return missingSkills;
-}
-
-function toggleAlert(show) {
-  const alertBox = document.getElementById("customAlert");
-
-  if (show) {
-    alertBox.classList.add("show"); 
-    alertBox.style.display = "block"; 
-  } else {
-    alertBox.classList.remove("show"); 
-    alertBox.style.transition = "opacity 0.5s"; 
-    alertBox.style.opacity = "0"; 
-    setTimeout(() => {
-      alertBox.style.display = "none"; 
-      alertBox.style.opacity = ""; 
-    }, 500);
-  }
 }
