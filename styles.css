@@ -67,6 +67,7 @@ body {
 
 #displayBanner {
   transition: all 3s ease;
+  margin-bottom: 0%;
 }
 
 #csvFileInput {
@@ -78,6 +79,27 @@ body {
 
 .mainview {
   display: flex;
+}
+
+.container2 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+}
+
+.banner {
+  display: flex;
+  border-radius: 45px;
+  color: white;
+  background: rgba(54, 54, 51, 0.5);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 1s ease;
+  padding: 10px;
+  margin-top: 2.9%;
+  width: fit-content;
 }
 
 .workstation {
@@ -93,9 +115,9 @@ body {
   align-items: flex-start;
   text-align: center;
   padding: 20px;
-  margin: 2%;
+  margin-top: 2%;
   height: 90vh;
-  width: 100%;
+  width: 96%;
   transition: all 1s ease;
   flex-direction: column;
 }
