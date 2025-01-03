@@ -117,7 +117,7 @@ body {
   padding: 20px;
   margin-top: 2%;
   height: 90vh;
-  width: 96%;
+  max-width: 96%;
   transition: all 1s ease;
   flex-direction: column;
 }
