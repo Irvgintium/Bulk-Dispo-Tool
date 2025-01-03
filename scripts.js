@@ -621,7 +621,7 @@ async function bulkDispoTable() {
         index++;
         sendMessageBanner(
           index +
-            " Session GUID(s) highligthed in BLUE on the table have been deprovisoned already."
+            " Session GUID(s) highligthed in 🔵 (blue) on the table have been deprovisoned already."
         );
         thElement.style.color = "blue";
         continue;
@@ -669,7 +669,9 @@ async function bulkDispoTable() {
   }
   if (index == rows.length) {
     setTimeout(() => {
-      alert(`${rows.length} Session GUID(s) has been read & processed!`);
+      alert(
+        `${rows.length} Session GUID(s) has been read & processed!\n\nSession GUID table font colors references:\n🟢 ('green' means successful)\n🔵 ('blue' means it has already been deprovisioned)\n🔴 ('red' means it was not deprovisioned, e.g. API encountered an error)`
+      );
     }, 3000);
   }
 }
