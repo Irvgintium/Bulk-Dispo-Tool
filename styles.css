@@ -176,3 +176,41 @@ select {
   height: 20px;
   margin-bottom: 10px;
 }
+
+.circular-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #d5d5d5;
+  color: #222222;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.circular-button:hover {
+  background-color: #105b28;
+}
+
+#customAlert {
+  position: fixed;
+  top: 0%;
+  left: 65%;
+  backdrop-filter: blur(10px);
+  background: rgba(29, 29, 29, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 10px;
+  border-radius: 35px;
+  padding: 10px;
+  margin: 10px;
+}
