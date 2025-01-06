@@ -650,7 +650,7 @@ async function bulkDispoTable() {
         dispositionId,
         1
       );
-      
+
       const errorRegex = /error/i;
       const exceptionRegex = /exception/i;
 
@@ -676,7 +676,7 @@ async function bulkDispoTable() {
     alert(
       `${rows.length} Session GUID(s) have been processed in total!\n${
         rows.length - index
-      } encountered issues.\n${index} were read sucessfully.\n\nSession GUID table font colors references:\n🟢 ('green' means successful)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
+      } encountered issues.\n${index} were read successful.\n\nSession GUID table font colors references:\n🟢 ('green' means successful)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
     );
   }, 3000);
 }
