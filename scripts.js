@@ -79,6 +79,22 @@ document
             )
             .filter((index) => index !== undefined);
 
+          //Checks if the csv file contains the needed columns
+          if (headersToShow.length != 6) {
+            clearTable();
+            showMatchSkillsButton(false);
+            enableFilter(false);
+            showBulkDispoButton(false);
+            showDispositionsMenu(false);
+            sendMessageBanner(
+              "You have uploaded a csv file with missing required columns. Please review the file."
+            );
+            alert(
+              `NOTE: Make sure the CSV file contains:\n"SESSION GUID"\n"CAMPAIGN"\n"SKILL"\n"CUSTOMER NAME"\n"DISPOSITION"\n"STATUS"`
+            );
+            return;
+          }
+
           const newCSV = text
             .split("\n")
             .map((row) => {
