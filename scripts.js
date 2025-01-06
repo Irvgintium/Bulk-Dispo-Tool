@@ -883,7 +883,7 @@ async function logoutUser() {
   const username = document.querySelector("#username");
   const password = document.querySelector("#password");
   const loginButton = document.querySelector("#login");
-  alert(`ALERT!\n\n${username} has been logged out...`);
+  alert(`${username} has been logged out...`);
 
   sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
   username.style.display = "block";
@@ -903,7 +903,10 @@ async function logoutUser() {
 
 function resetTimeout() {
   clearTimeout(timeoutID);
-  timeoutID = setTimeout(logoutUser, TIMEOUT_DURATION);
+  timeoutID = setTimeout(() => {
+    logoutUser();
+    alert("You have been logged out due to inactivity.");
+  }, TIMEOUT_DURATION);
 }
 
 function setupActivityListeners() {
