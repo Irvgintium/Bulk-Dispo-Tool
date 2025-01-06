@@ -299,11 +299,13 @@ async function request(method, urlEndpoint, headerBody) {
 function getSkill() {
   request("GET", `https://${host}/appsvcs/rs/svc/agents/${userId}/skills`).then(
     (result) => {
+      userSkills = [];
       try {
         ids = JSON.parse(result).map((x) => x.id);
         userSkills = JSON.parse(result).map((x) => x.name);
 
         var ul = document.querySelector(".list-group");
+        ul.innerHTML = "";
 
         for (var i = 0; i < userSkills.length; i++) {
           var name = userSkills[i];
