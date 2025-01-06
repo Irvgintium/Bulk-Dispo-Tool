@@ -872,6 +872,7 @@ function getMissingCsvSkills(csvSkills, userSkills) {
 async function logoutUser() {
   const usernameValue = document.getElementById("username").value;
   const passwordValue = document.getElementById("password").value;
+  const fileInput = document.getElementById("csvFileInput");
   const urldEndpoint = "https://app.five9.com/appsvcs/rs/svc/auth/logout";
   const headerBody = JSON.stringify({
     passwordCredentials: {
@@ -903,6 +904,7 @@ async function logoutUser() {
   showLogout(false);
   changePanelText(true, "You will see more info below once logged in.");
   clearTable();
+  fileInput.value = "";
 }
 
 function resetTimeout() {
