@@ -810,9 +810,9 @@ function showLogout(value) {
   }
 }
 
-async function logoutUser() {
-  window.location.reload(true);
-}
+// async function logoutUser() {
+//   window.location.reload(true);
+// }
 
 function endSession() {
   const confirmEnd = confirm("Do you want to end the session?");
