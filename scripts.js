@@ -39,7 +39,7 @@ document.getElementById("login").addEventListener("click", function () {
 });
 
 document.getElementById("logout").addEventListener("click", function () {
-  const username = document.querySelector("#username");
+  const username = document.querySelector("#username").value;
   logoutUser();
   alert(`${username} has been logged out...`);
 });
