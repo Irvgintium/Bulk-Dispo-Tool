@@ -660,7 +660,11 @@ async function bulkDispoTable() {
         //Handle specific 435 status.
         index--;
         thElement.style.color = "red";
-        sendMessageBanner(`Error disposing GUID "${GUID}"`);
+        sendMessageBanner(
+          `Error disposing GUID "${GUID}" (${
+            JSON.parse(response).five9ExceptionDetail.message
+          })`
+        );
       } else {
         //Successful disposal
         thElement.style.color = "green";
