@@ -719,8 +719,9 @@ async function handleSelectStation() {
     if (response == "204") {
       login();
       checkLoginAPIUser();
+    } else {
+      checkLoginAPIUser();
     }
-    checkLoginAPIUser();
   } catch (error) {
     sendMessageBanner(error);
   }
