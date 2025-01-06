@@ -894,6 +894,8 @@ async function logoutUser() {
   password.style.display = "block";
   loginButton.style.display = "block";
   message.innerText = "";
+  fileInput.value = "";
+  clearTable();
   clearList();
   clearSelectOptions();
   allowCSVUpload(false);
@@ -903,8 +905,6 @@ async function logoutUser() {
   enableFilter(false);
   showLogout(false);
   changePanelText(true, "You will see more info below once logged in.");
-  clearTable();
-  fileInput.value = "";
 }
 
 function resetTimeout() {
