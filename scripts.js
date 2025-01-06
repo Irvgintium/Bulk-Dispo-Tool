@@ -676,7 +676,7 @@ async function bulkDispoTable() {
   // Final notification
   setTimeout(() => {
     alert(
-      `${rows.length} Session GUID(s) have been processed in total!\n${
+      `A total of ${rows.length} Session GUID(s) have been completed!\n${
         rows.length - index
       } encountered issues.\n${index} were read successful.\n\nSession GUID table font colors references:\n🟢 ('green' means successful)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
     );
