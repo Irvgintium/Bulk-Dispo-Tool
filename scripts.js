@@ -584,11 +584,13 @@ async function checkLoginAPIUser() {
     if (response.replace(/"/g, "") == "SELECT_STATION") {
       alert("Encountered SELECT_STATION during login, trying to fix it..");
       handleSelectStation();
+      login();
     }
 
     if (response.replace(/"/g, "") == "SELECT_SKILLS") {
       alert("Encountered SELECT_SKILLS during login, trying to fix it..");
       handleSelectStation();
+      login();
     }
 
     if (response.replace(/"/g, "") == "WORKING") {
@@ -713,6 +715,11 @@ async function handleSelectStation() {
       })
     );
     sendMessageBanner("Station set to " + response);
+    //If the response is 204, auto re-attempt to login again
+    if (response == "204") {
+      login();
+      checkLoginAPIUser();
+    }
     checkLoginAPIUser();
   } catch (error) {
     sendMessageBanner(error);
