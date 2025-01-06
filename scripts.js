@@ -39,7 +39,9 @@ document.getElementById("login").addEventListener("click", function () {
 });
 
 document.getElementById("logout").addEventListener("click", function () {
+  const username = document.querySelector("#username");
   logoutUser();
+  alert(`${username} has been logged out...`);
 });
 
 document
@@ -883,7 +885,6 @@ async function logoutUser() {
   const username = document.querySelector("#username");
   const password = document.querySelector("#password");
   const loginButton = document.querySelector("#login");
-  alert(`${username} has been logged out...`);
 
   sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
   username.style.display = "block";
