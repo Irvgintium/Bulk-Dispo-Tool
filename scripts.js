@@ -892,6 +892,7 @@ async function logoutUser() {
   loginButton.style.display = "block";
   message.innerText = "";
   clearList();
+  clearSelectOptions();
   allowCSVUpload(false);
   showBulkDispoButton(false);
   showMatchSkillsButton(false);
@@ -926,5 +927,12 @@ function clearList() {
   const list = document.querySelector(".list-group");
   if (list) {
     list.innerHTML = "";
+  }
+}
+
+function clearSelectOptions() {
+  const selectElement = document.getElementById("dispositions");
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
   }
 }
