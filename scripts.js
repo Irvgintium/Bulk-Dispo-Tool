@@ -10,9 +10,12 @@ var userSkills;
 var skillsFromCSV;
 var ids;
 var dispositionsCopy;
+const TIMEOUT_DURATION = 10 * 60 * 1000; //10 mins in milliseconds
+let timeoutID;
 var matchSkillMessage =
   "Please have your admin assign you the skills needed for deprovisioning.";
 
+initializeSessionTimeout();
 sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
 showBulkDispoButton(false);
 showMatchSkillsButton(false);
@@ -370,11 +373,18 @@ function loadTable(csv) {
 
 function allowCSVUpload(value) {
   const element = document.getElementById("csvFileInput");
-  const element2 = document.getElementById("filter");
-  if (value === true) {
-    element.style.pointerEvents = "auto";
-    element.style.cursor = "pointer";
-    element.style.opacity = "1";
+  if (element) {
+    if (value === true) {
+      element.style.pointerEvents = "auto";
+      element.style.cursor = "pointer";
+      element.style.opacity = "1";
+      element.disabled = false;
+    } else {
+      element.style.pointerEvents = "none";
+      element.style.cursor = "not-allowed";
+      element.style.opacity = "0.5";
+      element.disabled = true;
+    }
   }
 }
 
@@ -582,13 +592,17 @@ async function checkLoginAPIUser() {
     console.log("checkLoginAPIUser Success:", response);
 
     if (response.replace(/"/g, "") == "SELECT_STATION") {
-      alert("Encountered SELECT_STATION during login, trying to fix it..");
+      sendMessageBanner(
+        "Encountered SELECT_STATION during login, trying to fix it.."
+      );
       handleSelectStation();
       login();
     }
 
     if (response.replace(/"/g, "") == "SELECT_SKILLS") {
-      alert("Encountered SELECT_SKILLS during login, trying to fix it..");
+      sendMessageBanner(
+        "Encountered SELECT_SKILLS during login, trying to fix it.."
+      );
       handleSelectStation();
       login();
     }
@@ -849,4 +863,64 @@ function getMissingCsvSkills(csvSkills, userSkills) {
   );
 
   return missingSkills;
+}
+
+async function logoutUser() {
+  const usernameValue = document.getElementById("username").value;
+  const passwordValue = document.getElementById("password").value;
+  const urldEndpoint = "https://app.five9.com/appsvcs/rs/svc/auth/logout";
+  const headerBody = JSON.stringify({
+    passwordCredentials: {
+      username: usernameValue,
+      password: passwordValue,
+    },
+    policy: "AttachExisting",
+    // You can change the "AttachExisting" to "ForceIn" to force logout existing sessions.
+  });
+  const method = "POST";
+  const response = await request(method, urldEndpoint, headerBody);
+  const message = document.getElementById("message");
+  const username = document.querySelector("#username");
+  const password = document.querySelector("#password");
+  const loginButton = document.querySelector("#login");
+  alert(`ALERT!\n\n${username} has been logged out...`);
+
+  sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
+  username.style.display = "block";
+  password.style.display = "block";
+  loginButton.style.display = "block";
+  message.innerText = "";
+  clearList();
+  allowCSVUpload(false);
+  showBulkDispoButton(false);
+  showMatchSkillsButton(false);
+  showDispositionsMenu(false);
+  enableFilter(false);
+  showLogout(false);
+  changePanelText(true, "You will see more info below once logged in.");
+  clearTable();
+}
+
+function resetTimeout() {
+  clearTimeout(timeoutID);
+  timeoutID = setTimeout(logoutUser, TIMEOUT_DURATION);
+}
+
+function setupActivityListeners() {
+  document.addEventListener("mousemove", resetTimeout);
+  document.addEventListener("keypress", resetTimeout);
+  document.addEventListener("touchstart", resetTimeout);
+  document.addEventListener("scroll", resetTimeout);
+}
+
+function initializeSessionTimeout() {
+  setupActivityListeners();
+  resetTimeout(); //start the timeout timer
+}
+
+function clearList() {
+  const list = document.querySelector(".list-group");
+  if (list) {
+    list.innerHTML = "";
+  }
 }
