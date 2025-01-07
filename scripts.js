@@ -14,6 +14,7 @@ const TIMEOUT_DURATION = 10 * 60 * 1000; //10 mins in milliseconds
 let timeoutID;
 var matchSkillMessage =
   "Please have your admin assign you the skills needed for deprovisioning.";
+var loginSate = 0;
 
 initializeSessionTimeout();
 sendMessageBanner("Welcome to Five9 Bulk Disposition Tool");
@@ -637,6 +638,7 @@ async function checkLoginAPIUser() {
 
     if (response.replace(/"/g, "") == "WORKING") {
       getSkill();
+      loginSate = 1;
     }
   } catch (error) {
     alert(`checkLoginAPIUser error:\n${error}`);
@@ -929,12 +931,14 @@ async function logoutUser() {
   enableFilter(false);
   showLogout(false);
   changePanelText(true, "You will see more info below once logged in.");
+  loginSate = 0;
 }
 
 function resetTimeout() {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
     logoutUser();
+    if ((loginSate = 0)) return;
     alert("You have been logged out due to inactivity.");
   }, TIMEOUT_DURATION);
 }
