@@ -932,14 +932,18 @@ async function logoutUser() {
   showLogout(false);
   changePanelText(true, "You will see more info below once logged in.");
   loginSate = 0;
+  console.log("LoginState: " + loginSate);
 }
 
 function resetTimeout() {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
-    logoutUser();
-    if ((loginSate = 0)) return;
-    alert("You have been logged out due to inactivity.");
+    if (loginSate == 0) {
+      return;
+    } else {
+      logoutUser();
+      alert("You have been logged out due to inactivity.");
+    }
   }, TIMEOUT_DURATION);
 }
 
