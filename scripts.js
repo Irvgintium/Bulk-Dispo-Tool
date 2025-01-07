@@ -81,14 +81,14 @@ document
             .filter((index) => index !== undefined);
 
           //Checks if the csv file contains the needed columns
-          if (headersToShow.length != 6) {
+          if (headersToShow.length != 6 && headersToShow.length != 0) {
             clearTable();
             showMatchSkillsButton(false);
             enableFilter(false);
             showBulkDispoButton(false);
             showDispositionsMenu(false);
             sendMessageBanner(
-              "You have uploaded an incorrect CSV file. Please review the file."
+              "The uploaded CSV file has some missing required columns. Please review the file."
             );
             alert(
               `NOTE: Make sure the CSV file contains:\n"SESSION GUID"\n"CAMPAIGN"\n"SKILL"\n"CUSTOMER NAME"\n"DISPOSITION"\n"STATUS"`
@@ -122,9 +122,7 @@ document
             sendMessageBanner(
               "You have uploaded an incorrect csv file. Please review the file."
             );
-            alert(
-              `NOTE: Make sure the CSV file contains:\n"SESSION GUID"\n"CAMPAIGN"\n"SKILL"\n"CUSTOMER NAME"\n"DISPOSITION"\n"STATUS"`
-            );
+            alert(`Detected a non CSV file.`);
           } else {
             clearTable();
             csvData = newCSV;
