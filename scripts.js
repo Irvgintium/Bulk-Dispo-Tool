@@ -933,6 +933,7 @@ async function logoutUser() {
   changePanelText(true, "You will see more info below once logged in.");
   loginSate = 0;
   console.log("LoginState: " + loginSate);
+  window.location.reload(true);
 }
 
 function resetTimeout() {
@@ -943,6 +944,7 @@ function resetTimeout() {
     } else {
       logoutUser();
       alert("You have been logged out due to inactivity.");
+      window.location.reload(true);
     }
   }, TIMEOUT_DURATION);
 }
