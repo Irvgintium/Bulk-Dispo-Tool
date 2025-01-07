@@ -232,7 +232,13 @@ document
   });
 
 document.getElementById("bulkDispo").addEventListener("click", function (e) {
-  bulkDispoTable();
+  const selectElement = document.getElementById("dispositions");
+  const selectedValue = selectElement.value;
+  if (selectedValue !== "0") {
+    bulkDispoTable();
+  } else {
+    alert("Please select a proper disposition.");
+  }
 });
 
 async function login() {
