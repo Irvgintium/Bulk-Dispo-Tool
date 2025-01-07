@@ -238,7 +238,7 @@ document.getElementById("bulkDispo").addEventListener("click", function (e) {
 async function login() {
   const usernameValue = document.getElementById("username").value;
   const passwordValue = document.getElementById("password").value;
-  const urldEndpoint = "https://app.five9.com/appsvcs/rs/svc/auth/login";
+  const urldEndpoint = document.getElementById("endpointSelect").value;
   const headerBody = JSON.stringify({
     passwordCredentials: {
       username: usernameValue,
