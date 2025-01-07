@@ -627,6 +627,14 @@ async function checkLoginAPIUser() {
       login();
     }
 
+    if (response.replace(/"/g, "") == "ACCEPT_NOTICE") {
+      sendMessageBanner(
+        "Encountered ACCEPT_NOTICE during login, trying to fix it.."
+      );
+      agentGetNotice();
+      login();
+    }
+
     if (response.replace(/"/g, "") == "WORKING") {
       getSkill();
     }
@@ -955,4 +963,22 @@ function clearSelectOptions() {
   while (selectElement.firstChild) {
     selectElement.removeChild(selectElement.firstChild);
   }
+}
+
+async function agentAcceptNotice(noticeId) {
+  const response = await request(
+    "PUT",
+    `https://${host}/appsvcs/rs/svc/agents/${userId}/maintenance_notices/${noticeId}/accept`
+  );
+  console.log("Notice has been accepted: " + response);
+  sendMessageBanner(JSON.parse(response).annotation);
+}
+
+async function agentGetNotice() {
+  const response = await request(
+    "GET",
+    `https://${host}/appsvcs/rs/svc/agents/${userId}/maintenance_notices`
+  );
+  console.log("Notice Maintenance: " + response);
+  JSON.parse(response).forEach((notice) => agentAcceptNotice(notice.id));
 }
