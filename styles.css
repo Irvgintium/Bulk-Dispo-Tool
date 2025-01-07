@@ -180,9 +180,6 @@ select {
 
 #endpointSelect {
   margin: 5px;
-  background: none !important;
-  background-color: transparent;
-  background-image: none;
   border: 1px solid white;
-  color: white;
+  color: rgb(0, 0, 0);
 }
