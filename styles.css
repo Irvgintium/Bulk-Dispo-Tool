@@ -134,6 +134,7 @@ body {
   color: rgb(241, 63, 63);
   font-size: xx-small;
   margin: 10%;
+  transition: all 1s ease;
 }
 
 .select-skills {

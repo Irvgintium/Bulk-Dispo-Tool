@@ -439,7 +439,7 @@ function ShowLoginDetails(value) {
       message.style.color = "white";
       message.innerHTML = `<p>Logged In: ${username.value}</p>`;
       message.style.display = "block";
-      message.style.fontSize = "15px";
+      message.style.fontSize = "10px";
       allowCSVUpload(true);
       showLogout(true);
     }
