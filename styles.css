@@ -130,7 +130,7 @@ body {
 }
 
 #message {
-  display: none;
+  /* display: none; */
   color: rgb(241, 63, 63);
   font-size: xx-small;
   margin: 10%;

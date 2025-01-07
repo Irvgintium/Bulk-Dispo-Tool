@@ -416,11 +416,13 @@ function enableFilter(value) {
 
 function showMessage(message) {
   const element = document.getElementById("message");
-  document.getElementById("message").innerHTML = `<p>${message}</p>`;
-  element.style.display = "block";
+  element.innerHTML = `<p>${message}</p>`;
+  // element.style.display = "block";
   setTimeout(() => {
-    element.style.display = "none";
-  }, 5000);
+    element.style.color = "red";
+    element.style.fontSize = "xx-small";
+    element.innerHTML = `<p></p>`;
+  }, 2000);
 }
 
 function ShowLoginDetails(value) {
@@ -437,7 +439,7 @@ function ShowLoginDetails(value) {
       loginButton.style.display = "none";
       element.style.height = "250px";
       message.style.color = "white";
-      message.innerHTML = `<p>Logged In: ${username.value}</p>`;
+      message.innerHTML = `<p>🟢 <b>${username.value}</b> logged in</p>`;
       message.style.display = "block";
       message.style.fontSize = "10px";
       allowCSVUpload(true);
@@ -919,7 +921,8 @@ async function logoutUser() {
   username.style.display = "block";
   password.style.display = "block";
   loginButton.style.display = "block";
-  message.innerText = "";
+  message.style.color = "white";
+  message.innerHTML = `<p>⚪ <b>${username.value}</b> logged out.</p>`;
   fileInput.value = "";
   clearTable();
   clearList();
