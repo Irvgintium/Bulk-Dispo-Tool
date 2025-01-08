@@ -617,25 +617,19 @@ async function checkLoginAPIUser() {
     console.log("checkLoginAPIUser Success:", response);
 
     if (response.replace(/"/g, "") == "SELECT_STATION") {
-      sendMessageBanner(
-        "Encountered SELECT_STATION during login, trying to fix it.."
-      );
+      sendMessageBanner("Selecting station. Please wait...");
       handleSelectStation();
       login();
     }
 
     if (response.replace(/"/g, "") == "SELECT_SKILLS") {
-      sendMessageBanner(
-        "Encountered SELECT_SKILLS during login, trying to fix it.."
-      );
+      sendMessageBanner("Selecting skills. Please wait...");
       handleSelectStation();
       login();
     }
 
     if (response.replace(/"/g, "") == "ACCEPT_NOTICE") {
-      sendMessageBanner(
-        "Encountered ACCEPT_NOTICE during login, trying to fix it.."
-      );
+      sendMessageBanner("Accepting notice. Please wait...");
       agentGetNotice();
       login();
     }
@@ -645,7 +639,7 @@ async function checkLoginAPIUser() {
       loginSate = 1;
     }
   } catch (error) {
-    alert(`checkLoginAPIUser error:\n${error}`);
+    alert(`Login state check error:\n${error}`);
     console.log(`checkLoginAPIUser error:\n${error}`);
   }
 }
@@ -766,7 +760,8 @@ async function handleSelectStation() {
         stationType: "EMPTY",
       })
     );
-    sendMessageBanner("Station set to " + response);
+    sendMessageBanner("Setting up station...");
+    console.log("Station set to " + response);
     //If the response is 204, auto re-attempt to login again
     if (response == "204") {
       login();
@@ -786,7 +781,8 @@ async function handleSelectSkills() {
       `https://${host}/appsvcs/rs/svc/agents/${userId}/active_skills`,
       JSON.stringify([])
     );
-    sendMessageBanner("Inital Skill set to:" + response);
+    sendMessageBanner("Setting up skills...");
+    console.log("Inital Skill set to:" + response);
   } catch (error) {
     sendMessageBanner(error);
   }
