@@ -119,9 +119,7 @@ document
             enableFilter(false);
             showBulkDispoButton(false);
             showDispositionsMenu(false);
-            sendMessageBanner(
-              "You have uploaded an incorrect csv file. Please review the file."
-            );
+            sendMessageBanner("You have uploaded a non CSV file.");
             alert(`Detected a non CSV file.`);
           } else {
             clearTable();
