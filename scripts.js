@@ -32,12 +32,17 @@ window.addEventListener("beforeunload", function (event) {
 });
 
 document.getElementById("login").addEventListener("click", function () {
-  try {
-    login();
-  } catch (error) {
-    alert(error);
-  }
+  login();
 });
+
+document
+  .getElementById("password")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      login();
+    }
+  });
 
 document.getElementById("logout").addEventListener("click", function () {
   const username = document.querySelector("#username").value;
