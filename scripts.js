@@ -704,7 +704,6 @@ async function bulkDispoTable() {
       const exceptionRegex = /exception/i;
 
       if (errorRegex.test(response) && exceptionRegex.test(response)) {
-        //Handle specific 435 status.
         index--;
         thElement.style.color = "red";
         sendMessageBanner(
