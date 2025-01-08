@@ -674,7 +674,7 @@ async function bulkDispoTable() {
         //Already dispositioned
         index++;
         sendMessageBanner(
-          `${index} Session GUID(s) highlighted in 🔵 (blue) on the table have already been dispositioned.`
+          `(${index} out of ${rows.length}). Session GUID(s) highlighted in 🔵 (blue) on the table have already been dispositioned.`
         );
         thElement.style.color = "blue";
         continue;
