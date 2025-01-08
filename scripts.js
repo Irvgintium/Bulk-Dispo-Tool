@@ -604,7 +604,7 @@ async function assignSkillsToMatch(skills) {
       skills
     );
     sendMessageBanner(
-      `${ids.length} skills has been assigned properly to the user. You can now proceed in loading the CSV file.`
+      `${ids.length} skill(s) have been assigned properly to the user. You can now proceed in loading the CSV file.`
     );
     loadDispositions();
   } catch (e) {
