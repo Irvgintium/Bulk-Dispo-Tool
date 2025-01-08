@@ -728,7 +728,7 @@ async function bulkDispoTable() {
     alert(
       `A total of ${rows.length} Session GUID(s) have been completed!\n${
         rows.length - index
-      } encountered issues.\n${index} were read successfully.\n\nSession GUID table font colors references:\n🟢 ('green' means successful)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
+      } encountered issues.\n${index} were read successfully.\n\nSession GUID table color reference:\n🟢 ('green' means successful)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
     );
   }, 3000);
 }
