@@ -687,11 +687,11 @@ async function bulkDispoTable() {
       );
 
       //Accept API
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      //await new Promise((resolve) => setTimeout(resolve, 3000));
       await acceptChatEmail(GUID, profileId, mediaType, 1);
 
       //Dispose API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      //await new Promise((resolve) => setTimeout(resolve, 2000));
       const response = await disposeChatEmail(
         GUID,
         profileId,
