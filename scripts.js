@@ -10,7 +10,7 @@ var userSkills;
 var skillsFromCSV;
 var ids;
 var dispositionsCopy;
-const TIMEOUT_DURATION = 10 * 60 * 1000; //10 mins in milliseconds
+const TIMEOUT_DURATION = 8 * 3600000; //8 hours in milliseconds
 let timeoutID;
 var matchSkillMessage =
   "Please have your admin assign you the skills needed for deprovisioning.";
