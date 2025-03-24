@@ -18,15 +18,14 @@ if (window.Worker) {
 }
 
 //[NOT YET WORKING] event listener to trigger the worker
-document.getElementById("phaseTwoTest").addEventListener("click", () => {
+document.getElementById("bulkDispo").addEventListener("click", () => {
     const selectElement = document.getElementById("dispositions");
     const selectedValue = selectElement.value;
-    const dispositionId = dispositionsCopy.find(
-        (dispo) => dispo.name === selectedValue
-      ).id;
-
+    
     if (selectedValue !== "0") {
-
+        const dispositionId = dispositionsCopy.find(
+            (dispo) => dispo.name === selectedValue
+        ).id;
         myWorker.postMessage({
             text: csvData,
             host: host,

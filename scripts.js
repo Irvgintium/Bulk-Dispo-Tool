@@ -232,7 +232,7 @@ document
     alert(matchSkillMessage);
   });
 
-document.getElementById("bulkDispo").addEventListener("click", function (e) {
+document.getElementById("phaseTwoTest").addEventListener("click", function (e) {
   const selectElement = document.getElementById("dispositions");
   const selectedValue = selectElement.value;
   if (selectedValue !== "0") {
@@ -653,9 +653,11 @@ async function bulkDispoTable() {
   const table = document.getElementById("csvTable");
   const rows = table.querySelectorAll("tbody tr");
   const selectedDispo = document.getElementById("dispositions").value;
+  console.debug(dispositionsCopy)
   const dispositionId = dispositionsCopy.find(
     (dispo) => dispo.name === selectedDispo
   ).id;
+  
   let index = 0;
 
   for (const row of rows) {
