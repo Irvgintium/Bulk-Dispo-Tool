@@ -17,7 +17,7 @@ if (window.Worker) {
     };
 }
 
-//event listener to trigger the worker
+//[NOT YET WORKING] event listener to trigger the worker
 document.getElementById("phaseTwoTest").addEventListener("click", () => {
     const selectElement = document.getElementById("dispositions");
     const selectedValue = selectElement.value;
@@ -35,7 +35,7 @@ document.getElementById("phaseTwoTest").addEventListener("click", () => {
             tokenId: tokenID,
             dispositionId: dispositionId,
         });
-        
+
     } else {
         alert("Please select a proper disposition.");
     }
