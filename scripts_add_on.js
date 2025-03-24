@@ -3,16 +3,27 @@
  */
 
 const myWorker = new Worker("worker.js");
+const banner = document.querySelector('.banner');
+
+function process() {
+    banner.classList.add('loading');
+}
+
+function stop() {
+    banner.classList.remove('loading');
+}
 
 if (window.Worker) {
     myWorker.onmessage = function (event) {
         const { type, data } = event.data;
         if (type === "log") {
             console.debug(data);
+            process();
             sendMessageBanner(data);
 
-            if (typeof data === "string" && data.startsWith("[Finished]")){
+            if (typeof data === "string" && data.startsWith("[Finished]")) {
                 alert(data);
+                stop();
             }
 
         } else if (type === "result") {

@@ -26,7 +26,7 @@ async function limitConcurrency(tasks, limit) {
 
     /********************************************************Get Interactions*****************************************************************/
 
-      self.postMessage({ type: 'log', data: `[${new Date()}] Getting all the interaction data..` });
+      self.postMessage({ type: 'log', data: `Getting all the interaction data...` });
   
       const startTimeProcess1 = Date.now();
       const CSVArray = text.split("\n");
@@ -85,7 +85,7 @@ async function limitConcurrency(tasks, limit) {
 
     /********************************************************ACCEPT INTERACTIONS*****************************************************************/
 
-      self.postMessage({ type: 'log', data: `[${new Date()}] Accepting ${process2Data.length} interactions...` });
+      self.postMessage({ type: 'log', data: `Accepting ${process2Data.length} interactions...` });
   
       const startTimeProcess2 = Date.now();
   
@@ -134,7 +134,7 @@ async function limitConcurrency(tasks, limit) {
       //Process 3 building (dispose interaction API)
 
       //still use the same data (accept api)
-      self.postMessage({ type: 'log', data: `[${new Date()}] Disposing ${process2Data.length} interactions...` }); 
+      self.postMessage({ type: 'log', data: `Disposing ${process2Data.length} interactions...` }); 
 
       const startTimeProcess3 = Date.now();
 
