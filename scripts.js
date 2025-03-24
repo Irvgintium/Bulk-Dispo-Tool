@@ -138,7 +138,7 @@ document
 
       reader.readAsText(file);
 
-      sendMessageBanner(`${newCSV.split("\n").length} interactions has been successfully loaded.`);
+      sendMessageBanner(`The CSV file has been successfully loaded into the table below.`);
       enableFilter(true);
     } else {
       alert("No file selected!");
