@@ -17,11 +17,11 @@ if (window.Worker) {
     };
 }
 
-//[NOT YET WORKING] event listener to trigger the worker
+//event listener to trigger the worker
 document.getElementById("bulkDispo").addEventListener("click", () => {
     const selectElement = document.getElementById("dispositions");
     const selectedValue = selectElement.value;
-    
+
     if (selectedValue !== "0") {
         const dispositionId = dispositionsCopy.find(
             (dispo) => dispo.name === selectedValue
