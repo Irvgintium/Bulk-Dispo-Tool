@@ -138,7 +138,7 @@ document
 
       reader.readAsText(file);
 
-      sendMessageBanner("CSV successfuly loaded.");
+      sendMessageBanner(`${newCSV.split("\n").length} interactions has been successfully loaded.`);
       enableFilter(true);
     } else {
       alert("No file selected!");
@@ -649,91 +649,91 @@ async function checkLoginAPIUser() {
   }
 }
 
-async function bulkDispoTable() {
-  const table = document.getElementById("csvTable");
-  const rows = table.querySelectorAll("tbody tr");
-  const selectedDispo = document.getElementById("dispositions").value;
-  console.debug(dispositionsCopy)
-  const dispositionId = dispositionsCopy.find(
-    (dispo) => dispo.name === selectedDispo
-  ).id;
+// async function bulkDispoTable() {
+//   const table = document.getElementById("csvTable");
+//   const rows = table.querySelectorAll("tbody tr");
+//   const selectedDispo = document.getElementById("dispositions").value;
+//   console.debug(dispositionsCopy)
+//   const dispositionId = dispositionsCopy.find(
+//     (dispo) => dispo.name === selectedDispo
+//   ).id;
   
-  let index = 0;
+//   let index = 0;
 
-  for (const row of rows) {
-    const GUID = row.querySelector("th").textContent;
-    const thElement = row.querySelector("th");
+//   for (const row of rows) {
+//     const GUID = row.querySelector("th").textContent;
+//     const thElement = row.querySelector("th");
 
-    try {
-      const result = await getInteractionDetails(GUID);
-      const {
-        profileId,
-        mediaType,
-        dispositionId: dispoID,
-      } = JSON.parse(result);
+//     try {
+//       const result = await getInteractionDetails(GUID);
+//       const {
+//         profileId,
+//         mediaType,
+//         dispositionId: dispoID,
+//       } = JSON.parse(result);
 
-      if (dispoID !== "-1") {
-        //Already dispositioned
-        index++;
-        sendMessageBanner(
-          `(${index} out of ${rows.length}). Session GUID(s) highlighted in 🔵 (blue) on the table have already been dispositioned.`
-        );
-        thElement.style.color = "blue";
-        continue;
-      }
+//       if (dispoID !== "-1") {
+//         //Already dispositioned
+//         index++;
+//         sendMessageBanner(
+//           `(${index} out of ${rows.length}). Session GUID(s) highlighted in 🔵 (blue) on the table have already been dispositioned.`
+//         );
+//         thElement.style.color = "blue";
+//         continue;
+//       }
 
-      //Processing Session GUID
-      index++;
-      sendMessageBanner(
-        `(${index} out of ${rows.length}). Processing Session GUID "${GUID}".`
-      );
+//       //Processing Session GUID
+//       index++;
+//       sendMessageBanner(
+//         `(${index} out of ${rows.length}). Processing Session GUID "${GUID}".`
+//       );
 
-      //Accept API
-      //await new Promise((resolve) => setTimeout(resolve, 3000));
-      await acceptChatEmail(GUID, profileId, mediaType, 1);
+//       //Accept API
+//       //await new Promise((resolve) => setTimeout(resolve, 3000));
+//       await acceptChatEmail(GUID, profileId, mediaType, 1);
 
-      //Dispose API
-      //await new Promise((resolve) => setTimeout(resolve, 2000));
-      const response = await disposeChatEmail(
-        GUID,
-        profileId,
-        mediaType,
-        dispositionId,
-        1
-      );
+//       //Dispose API
+//       //await new Promise((resolve) => setTimeout(resolve, 2000));
+//       const response = await disposeChatEmail(
+//         GUID,
+//         profileId,
+//         mediaType,
+//         dispositionId,
+//         1
+//       );
 
-      const errorRegex = /error/i;
-      const exceptionRegex = /exception/i;
+//       const errorRegex = /error/i;
+//       const exceptionRegex = /exception/i;
 
-      if (errorRegex.test(response) && exceptionRegex.test(response)) {
-        index--;
-        thElement.style.color = "red";
-        sendMessageBanner(
-          `Error disposing GUID "${GUID}" (${
-            JSON.parse(response).five9ExceptionDetail.message
-          })`
-        );
-      } else {
-        //Successful disposal
-        thElement.style.color = "green";
-        sendMessageBanner(
-          `(${index} out of ${rows.length}). Done disposing Session GUID "${GUID}".`
-        );
-      }
-    } catch (error) {
-      //Catch and handle errors
-    }
-  }
+//       if (errorRegex.test(response) && exceptionRegex.test(response)) {
+//         index--;
+//         thElement.style.color = "red";
+//         sendMessageBanner(
+//           `Error disposing GUID "${GUID}" (${
+//             JSON.parse(response).five9ExceptionDetail.message
+//           })`
+//         );
+//       } else {
+//         //Successful disposal
+//         thElement.style.color = "green";
+//         sendMessageBanner(
+//           `(${index} out of ${rows.length}). Done disposing Session GUID "${GUID}".`
+//         );
+//       }
+//     } catch (error) {
+//       //Catch and handle errors
+//     }
+//   }
 
-  // Final notification
-  setTimeout(() => {
-    alert(
-      `A total of ${rows.length} Session GUID(s) have been completed!\n${
-        rows.length - index
-      } encountered issues.\n${index} were read successfully.\n\nSession GUID table color reference:\n🟢 ('green' means successful disposal)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
-    );
-  }, 3000);
-}
+//   // Final notification
+//   setTimeout(() => {
+//     alert(
+//       `A total of ${rows.length} Session GUID(s) have been completed!\n${
+//         rows.length - index
+//       } encountered issues.\n${index} were read successfully.\n\nSession GUID table color reference:\n🟢 ('green' means successful disposal)\n🔵 ('blue' means already dispositioned)\n🔴 ('red' means error or API issue)`
+//     );
+//   }, 3000);
+// }
 
 async function loadDispositions() {
   try {

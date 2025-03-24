@@ -26,7 +26,7 @@ async function limitConcurrency(tasks, limit) {
 
     /********************************************************Get Interactions*****************************************************************/
 
-      self.postMessage({ type: 'log', data: `[${new Date()}] Starting Process 1` });
+      self.postMessage({ type: 'log', data: `[${new Date()}] Getting all the interaction data..` });
   
       const startTimeProcess1 = Date.now();
       const CSVArray = text.split("\n");
@@ -64,7 +64,7 @@ async function limitConcurrency(tasks, limit) {
   
       self.postMessage({
         type: 'log',
-        data: `[Process 1] Completed ${resultsProcess1.length} items in ${minutesProcess1} minutes and ${secondsProcess1} seconds.`
+        data: `[Get Interaction] Completed. Gathered ${resultsProcess1.length} interaction data in ${minutesProcess1} minutes and ${secondsProcess1} seconds.`
       });
   
       /**transform results for Process 2 - something is wrong here with the json structure. Something related when domain is moved to stl from scl original testing.
@@ -85,7 +85,7 @@ async function limitConcurrency(tasks, limit) {
 
     /********************************************************ACCEPT INTERACTIONS*****************************************************************/
 
-      self.postMessage({ type: 'log', data: `[${new Date()}] Starting Process 2 - Total of ${process2Data.length} data` });
+      self.postMessage({ type: 'log', data: `[${new Date()}] Accepting ${process2Data.length} interactions...` });
   
       const startTimeProcess2 = Date.now();
   
@@ -126,7 +126,7 @@ async function limitConcurrency(tasks, limit) {
   
       self.postMessage({
         type: 'log',
-        data: `[Process 2] Completed ${resultsProcess2.length} items in ${minutesProcess2} minutes and ${secondsProcess2} seconds.`
+        data: `[Accept Interaction] Completed. Accepted ${resultsProcess2.length} interactions in ${minutesProcess2} minutes and ${secondsProcess2} seconds.`
       });
 
       /********************************************************DISPOSE INTERACTIONS*****************************************************************/
@@ -134,7 +134,7 @@ async function limitConcurrency(tasks, limit) {
       //Process 3 building (dispose interaction API)
 
       //still use the same data (accept api)
-      self.postMessage({ type: 'log', data: `[${new Date()}] Starting Process 3 - Total of ${process2Data.length} data` }); 
+      self.postMessage({ type: 'log', data: `[${new Date()}] Disposing ${process2Data.length} interactions...` }); 
 
       const startTimeProcess3 = Date.now();
 
@@ -184,7 +184,7 @@ async function limitConcurrency(tasks, limit) {
   
       self.postMessage({
         type: 'log',
-        data: `[Process 3] Completed ${resultsProcess3.length} items in ${(minutesProcess1 + minutesProcess2 + minutesProcess3)} minutes and ${secondsProcess1 + secondsProcess2 + secondsProcess3} seconds.`
+        data: `[Dispose Interaction] Completed. Disposed ${resultsProcess3.length} interactions in ${(minutesProcess1 + minutesProcess2 + minutesProcess3)} minutes and ${secondsProcess1 + secondsProcess2 + secondsProcess3} seconds.`
       });
 
       /********************************************************DISPOSE*****************************************************************/
@@ -195,7 +195,7 @@ async function limitConcurrency(tasks, limit) {
   
       self.postMessage({
         type: 'log',
-        data: `[Total] Processed ${resultsProcess3.length} items in ${totalMinutes} minutes and ${totalSeconds} seconds.`
+        data: `[Finished]\n The tool has processed ${resultsProcess3.length} interaction(s) in ${totalMinutes} minutes and ${totalSeconds} seconds.`
       });
   
       //send final result back to main thread
