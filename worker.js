@@ -159,7 +159,7 @@ async function limitConcurrency(tasks, limit) {
       const tasksProcess3 = urlsProcess3.map(({ url, options }, index) => async () => {
         try {
           const response = await fetch(url, options);
-          if (!response.ok) //return `#${index} HTTP Error: ${response.message == undefined ? response.five9ExceptionDetail.message : response.message}`;
+          if (!response.ok)
           {
             if (response.status === 435) {
                 const errorData = await response.json(); 
