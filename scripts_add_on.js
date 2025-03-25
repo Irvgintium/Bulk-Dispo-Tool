@@ -4,6 +4,7 @@
 
 const myWorker = new Worker("worker.js");
 const banner = document.querySelector('.banner');
+const button = document.getElementById('bulkDispo');
 
 function process() {
     banner.classList.add('loading');
@@ -11,6 +12,17 @@ function process() {
 
 function stop() {
     banner.classList.remove('loading');
+}
+
+function deactivate(button) {
+    
+    button.classList.add('deactivated');
+    button.disabled = true;
+}
+
+function reactivate(button) {
+    button.classList.remove('deactivated');
+    button.disabled = false;
 }
 
 if (window.Worker) {
@@ -35,6 +47,7 @@ if (window.Worker) {
             console.error("Worker error:", data);
             sendMessageBanner(data);
         }
+        reactivate(button);
     };
 }
 
@@ -44,6 +57,7 @@ document.getElementById("bulkDispo").addEventListener("click", () => {
     const selectedValue = selectElement.value;
 
     if (selectedValue !== "0") {
+        deactivate(button);
         const dispositionId = dispositionsCopy.find(
             (dispo) => dispo.name === selectedValue
         ).id;
@@ -72,7 +86,7 @@ function bulkDispoTable(resultsProcess3) {
         let tooltipText = status;
 
         if (status === "done") {
-            thElement.style.color = "blue";
+            thElement.style.color = "green";
             row.classList.add("tooltip-row");
             row.setAttribute("data-tooltip", tooltipText);
         } else {

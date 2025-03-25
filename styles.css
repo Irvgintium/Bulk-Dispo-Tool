@@ -223,3 +223,10 @@ select {
   white-space: nowrap;
   z-index: 10;
 }
+
+.deactivated {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #cccccc;
+  color: #666666;
+}
