@@ -4,7 +4,7 @@
 
 const myWorker = new Worker("worker.js");
 const banner = document.querySelector('.banner');
-const button = document.getElementById('bulkDispo');
+let isProcessing = false;
 
 function process() {
     banner.classList.add('loading');
@@ -12,17 +12,6 @@ function process() {
 
 function stop() {
     banner.classList.remove('loading');
-}
-
-function deactivate(button) {
-    
-    button.classList.add('deactivated');
-    button.disabled = true;
-}
-
-function reactivate(button) {
-    button.classList.remove('deactivated');
-    button.disabled = false;
 }
 
 if (window.Worker) {
@@ -36,6 +25,7 @@ if (window.Worker) {
             if (typeof data === "string" && data.startsWith("[Finished]")) {
                 alert(data);
                 stop();
+                isProcessing = false;
             }
 
         } else if (type === "result") {
@@ -43,11 +33,13 @@ if (window.Worker) {
             console.debug("NOTE: If you notice the final total interactions was subtracted by 1, it could be due to a null space in the processed CSV file. The tool automatically removes it.")
             bulkDispoTable(data.resultsProcess3);
             sendMessageBanner(`Done processing ${data.resultsProcess3.length} interactions.`);
+            isProcessing = false;
+
         } else if (type === "error") {
             console.error("Worker error:", data);
             sendMessageBanner(data);
+            isProcessing = false;
         }
-        reactivate(button);
     };
 }
 
@@ -57,10 +49,18 @@ document.getElementById("bulkDispo").addEventListener("click", () => {
     const selectedValue = selectElement.value;
 
     if (selectedValue !== "0") {
-        deactivate(button);
         const dispositionId = dispositionsCopy.find(
             (dispo) => dispo.name === selectedValue
         ).id;
+
+        if (isProcessing) {
+            alert("The tool is already processing the interactions, please wait until it's done.");
+            return;
+        }
+
+        isProcessing = true;
+        console.log("Processing started, isProcessing:", isProcessing);
+        
         myWorker.postMessage({
             text: csvData,
             host: host,
@@ -73,7 +73,6 @@ document.getElementById("bulkDispo").addEventListener("click", () => {
     } else {
         alert("Please select a proper disposition.");
     }
-
 });
 
 function bulkDispoTable(resultsProcess3) {

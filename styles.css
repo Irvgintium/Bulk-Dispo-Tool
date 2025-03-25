@@ -224,9 +224,14 @@ select {
   z-index: 10;
 }
 
-.deactivated {
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn.deactivated {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #cccccc;
-  color: #666666;
+  background-color: #cccccc !important; 
+  color: #666666 !important;
+  border-color: #cccccc !important;
 }
