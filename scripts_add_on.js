@@ -28,7 +28,7 @@ if (window.Worker) {
 
         } else if (type === "result") {
             console.log("Final result from worker:", data);
-            console.debug("\nNOTE: If you notice the final total interactions was subtracted by 1, it could be due to a null space in the processed CSV file. The tool automatically removes it.")
+            console.debug("NOTE: If you notice the final total interactions was subtracted by 1, it could be due to a null space in the processed CSV file. The tool automatically removes it.")
             bulkDispoTable(data.resultsProcess3);
             sendMessageBanner(`Done processing ${data.resultsProcess3.length} interactions.`);
         } else if (type === "error") {
