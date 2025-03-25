@@ -194,9 +194,9 @@ select {
 }
 
 #dispositions {
-  width: 90px;
-  height: 20px;
-  margin-bottom: 10px;
+  width: 160px;
+  /* height: 20px; */
+  /* margin-bottom: 10px; */
 }
 
 #endpointSelect {
